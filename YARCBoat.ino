@@ -1,46 +1,53 @@
 /**************************************************************
- * Blynk is a platform with iOS and Android apps to control
- * Arduino, Raspberry Pi and the likes over the Internet.
- * You can easily build graphic interfaces for all your
- * projects by simply dragging and dropping widgets.
- *
- *   Downloads, docs, tutorials: http://www.blynk.cc
- *   Blynk community:            http://community.blynk.cc
- *   Social networks:            http://www.fb.com/blynkapp
- *                               http://twitter.com/blynk_app
- *
- * Blynk library is licensed under MIT license
- * This example code is in public domain.
- *
- **************************************************************
- * This example runs directly on ESP8266 chip.
- *
- * You need to install this for ESP8266 development:
- *   https://github.com/esp8266/Arduino
- *
- * Please be sure to select the right ESP8266 module
- * in the Tools -> Board menu!
- *
- * Change WiFi ssid, pass, and Blynk auth token to run :)
- *
+   Blynk is a platform with iOS and Android apps to control
+   Arduino, Raspberry Pi and the likes over the Internet.
+   Blynk library is licensed under MIT license
+   This example runs directly on ESP8266 chip.
  **************************************************************/
 
 #define BLYNK_PRINT Serial    // Comment this out to disable prints and save space
 #include <ESP8266WiFi.h>
 #include <BlynkSimpleEsp8266.h>
 
-// You should get Auth Token in the Blynk App.
-// Your WiFi credentials.
+// Auth Token, WiFi credentials are defined here:
 #include "Auth.h"
+
+#include "BoatController.h"
+
+Boat myBoat;
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
+  myBoat.motorLeft.setPinPlus  (  5 ); // when move forward PWM is here
+  myBoat.motorLeft.setPinMinus (  0 ); // and zero here
+  myBoat.motorRight.setPinPlus ( 16 ); // when move forward PWM is here
+  myBoat.motorRight.setPinMinus( 14 ); // and zero here
   Blynk.begin(auth, ssid, pass);
 }
+
+BLYNK_WRITE(V0) { // Speed slider
+  myBoat.setSpeed(param.asInt());
+};
+
+BLYNK_WRITE(V1) { // Wheel slider
+  myBoat.setRotation(param.asInt());
+};
+
+BLYNK_WRITE(V2) { // Reverce button
+  myBoat.Reverse = param.asInt() == 1;
+};
+
+BLYNK_WRITE(V3) { // Go straight button
+  Blynk.virtualWrite(V1, 0);
+};
 
 void loop()
 {
   Blynk.run();
+  // read gyroscope
+  myBoat.updateMotors();
+  //
+
 }
 
