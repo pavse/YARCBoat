@@ -1,5 +1,6 @@
 
 #include "Motor.h"
+#include "Gyro.h"
 
 class Boat {
 
@@ -9,6 +10,7 @@ class Boat {
 
   public: Motor motorLeft;
   public: Motor motorRight;
+  Gyro  boatGyro;
 
   public: void setSpeed(int newSpeed) {
       if ( 0 <= newSpeed and newSpeed <= 127 ) {
