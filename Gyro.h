@@ -1,5 +1,7 @@
-#include "Wire.h"
 #include "MPU6050.h"
+
+#define SDA  2
+#define SCL  4
 
 class Gyro {
   private:
@@ -9,8 +11,10 @@ class Gyro {
 
   public:
     Gyro() {
-      Wire.begin();
-      Serial.println("Initialize MPU");
+      // https://learn.sparkfun.com/tutorials/esp8266-thing-hookup-guide/using-the-arduino-addon
+      Wire.begin(SDA, SCL);
+
+      Serial.println("MPU initialization...");
       mpu.initialize();
       Serial.println(mpu.testConnection() ? "MPU connected" : "MPU connection failed");
     };
