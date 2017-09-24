@@ -24,21 +24,25 @@ class Motor {
     }
 
     void setSpeed(int8_t newSpeed) {
+      if ( newSpeed == Speed ) return;
       if ( abs(newSpeed) <= INACTIVE_PWM ) {
         Speed = 0;
       } else {
-        Speed = newSpeed;
+        if (Speed == 0) {
+          Speed = 127;      // Speed was zero, kick the motor
+        } else {
+          Speed = newSpeed;
+        };
       };
       int16_t pwm = abs(Speed) << 3;
       if ( Speed >= 0 ) {
         digitalWrite(pinMinus, 0);
         digitalWrite(pinPlus,  1);
-        analogWrite(pinPWM,  pwm);
       } else {
         digitalWrite(pinMinus, 1);
         digitalWrite(pinPlus,  0);
-        analogWrite(pinPWM, pwm);
       };
+        analogWrite(pinPWM, pwm);
     };
 
     int8_t getSpeed() {
