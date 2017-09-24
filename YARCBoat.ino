@@ -33,18 +33,23 @@ void setup()
 
 BLYNK_WRITE(V0) { // Speed slider
   myBoat.setSpeed(param.asInt());
+  myBoat.updateMotors();
 };
 
 BLYNK_WRITE(V1) { // Wheel slider
   myBoat.setRotation(param.asInt());
+  myBoat.updateMotors();
 };
 
 BLYNK_WRITE(V2) { // Reverce button
   myBoat.Reverse = param.asInt() == 1;
+  myBoat.updateMotors();
 };
 
 BLYNK_WRITE(V3) { // Go straight button
+  myBoat.setRotation(0);
   Blynk.virtualWrite(V1, 0);
+  myBoat.updateMotors();
 };
 
 BLYNK_WRITE(V4)
@@ -67,8 +72,5 @@ void loop()
 {
   Blynk.run();
   // read gyroscope
-  myBoat.updateMotors();
-  //
 
 }
-
