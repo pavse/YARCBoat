@@ -19,7 +19,7 @@ class Boat {
     };
 
   public: void setRotation(int newRotation) {
-      if ( -5 <= newRotation and newRotation <= 5 ) {
+      if ( -50 <= newRotation and newRotation <= 50 ) {
         Rotation = newRotation;
       };
     };
