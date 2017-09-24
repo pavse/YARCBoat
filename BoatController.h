@@ -26,8 +26,15 @@ private:
     };
 
     void updateMotors() {
-      int motLeft  = Speed + Rotation << 3;
-      int motRight = Speed - Rotation << 3;
+      int motLeft;
+      int motRight;
+      if ( Reverse ) {
+          motLeft  = -Speed - Rotation << 3;
+          motRight = -Speed + Rotation << 3;
+      } else {
+          motLeft  =  Speed + Rotation << 3;
+          motRight =  Speed - Rotation << 3;
+      }
 
       int motMax = abs(motLeft);
       if (motMax < abs(motRight) ) {

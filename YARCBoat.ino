@@ -27,7 +27,7 @@ void setup()
   myBoat.motorRight.setPinMinus( 14 ); // and 0 here
   myBoat.motorRight.setPinPWM  (  1 ); // and PWM here
   Blynk.begin(auth, ssid, pass);
-  terminal.println("\nYARCBoat has started, terminal is switching off");
+  terminal.println("\nYARCBoat has started");
   terminal.flush();
 }
 
