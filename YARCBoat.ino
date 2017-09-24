@@ -15,15 +15,20 @@
 #include "BoatController.h"
 
 Boat myBoat;
+WidgetTerminal terminal(V4);
 
 void setup()
 {
   Serial.begin(115200);
-  myBoat.motorLeft.setPinPlus  (  5 ); // when move forward PWM is here
-  myBoat.motorLeft.setPinMinus (  0 ); // and zero here
-  myBoat.motorRight.setPinPlus ( 16 ); // when move forward PWM is here
-  myBoat.motorRight.setPinMinus( 14 ); // and zero here
+  myBoat.motorLeft.setPinPlus  (  5 ); // when move forward 1 is here
+  myBoat.motorLeft.setPinMinus (  0 ); // and 0 here
+  myBoat.motorLeft.setPinPWM   (  3 ); // and PWM here
+  myBoat.motorRight.setPinPlus ( 16 ); // when move forward 1 is here
+  myBoat.motorRight.setPinMinus( 14 ); // and 0 here
+  myBoat.motorRight.setPinPWM  (  1 ); // and PWM here
   Blynk.begin(auth, ssid, pass);
+  terminal.println("\nYARCBoat has started, terminal is switching off");
+  terminal.flush();
 }
 
 BLYNK_WRITE(V0) { // Speed slider
@@ -41,6 +46,22 @@ BLYNK_WRITE(V2) { // Reverce button
 BLYNK_WRITE(V3) { // Go straight button
   Blynk.virtualWrite(V1, 0);
 };
+
+BLYNK_WRITE(V4)
+{
+ if (String("d") == param.asStr() || String("dump") == param.asStr()) {
+    terminal.print("Speed Left: ") ;
+    terminal.print(myBoat.motorLeft.getSpeed()) ;
+    terminal.print(", Speed Right: ") ;
+    terminal.print(myBoat.motorRight.getSpeed()) ;
+    terminal.println() ;
+  } else {
+    terminal.print("Unknown command:");
+    terminal.write(param.getBuffer(), param.getLength());
+    terminal.println();
+  };
+  terminal.flush();
+}
 
 void loop()
 {

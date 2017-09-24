@@ -3,11 +3,11 @@
 
                    ESP8266 12E Witty Cloud
                  +------------------------+                                      +12
-              -- |RST         (TXD) GPIO1 | --  ENA = MotorL PWM                 GND
-              -- |ADC         (RXD) GPIO3 | --  ENB = MotorR PWM                  +5
-              -- |CH_PD        (D1) GPIO5 | --  IN3 = MotorR+            VCC     ENA
-MotorL+ = IN1 -- |GPIO16 (D0)  (D2) GPIO4 | -P- SCL = Gyro I2C clock     GND     IN1
-MotorL- = IN2 -- |GPIO14 (D5)  (D3) GPIO0 | --  IN4 = MotorR-            SCL     IN2
+              -- |RST         (TXD) GPIO1 | --  ENA = MotorR PWM                 GND
+              -- |ADC         (RXD) GPIO3 | --  ENB = MotorL PWM                  +5
+              -- |CH_PD        (D1) GPIO5 | --  IN3 = MotorL+            VCC     ENA
+MotorR+ = IN1 -- |GPIO16 (D0)  (D2) GPIO4 | -P- SCL = Gyro I2C clock     GND     IN1
+MotorR- = IN2 -- |GPIO14 (D5)  (D3) GPIO0 | --  IN4 = MotorL-            SCL     IN2
              -G- |GPIO12 (D6)  (D4) GPIO2 | -P- SDA = Gyro I2C data      SDA     IN3
              -B- |GPIO13 (D7)  (D8) GPIO15| -R-                                  IN4
              --- |VCC                 GND | ---                                  ENB
