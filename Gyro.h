@@ -11,6 +11,7 @@ class Gyro {
     int16_t ax, ay, az;
     int16_t gx, gy, gz;
     byte    shift;
+    String  status;
 
   public:
     Gyro() {
@@ -24,9 +25,9 @@ class Gyro {
          but you can manually set them to any other pin by calling Wire.begin([SDA], [SCL]). */
       Wire.begin(SDA, SCL);
 
-      Serial.println("MPU initialization...");
+      status = "MPU initialization...";
       mpu.initialize();
-      Serial.println(mpu.testConnection() ? "MPU connected" : "MPU connection failed");
+      status = mpu.testConnection() ? "MPU connected" : "MPU connection failed";
     };
 
     int8_t getRotation() {
