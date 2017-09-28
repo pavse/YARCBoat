@@ -43,5 +43,9 @@ class Gyro {
         if (0 <= value && value <=10) {
             shift = value;
         };
-    }
+    };
+
+    String getStatus(){
+        return status;
+    };
 };

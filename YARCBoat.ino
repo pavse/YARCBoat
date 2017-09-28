@@ -51,26 +51,29 @@ BLYNK_WRITE(V3) { // Go straight button
   myBoat.updateMotors();
 };
 
-BLYNK_WRITE(V4)
-{
- if (String("d") == param.asStr() || String("dump") == param.asStr()) {
-    terminal.print("Speed Left: ") ;
-    terminal.print(myBoat.motorLeft.getSpeed()) ;
-    terminal.print(", Speed Right: ") ;
-    terminal.print(myBoat.motorRight.getSpeed()) ;
-    terminal.println() ;
+BLYNK_WRITE(V4) {
+  if (String("d") == param.asStr() || String("dump") == param.asStr()) {
+      BLYNK_WRITE(V6);
   } else {
     terminal.print("Unknown command:");
     terminal.write(param.getBuffer(), param.getLength());
     terminal.println();
+    terminal.flush();
   };
-  terminal.flush();
 }
 
 BLYNK_WRITE(V5) { // Update "Gyroscope sensibility"
     myBoat.boatGyro.setShift(-param.asInt());
 };
 
+BLYNK_WRITE(V6) { // Button "Dump"
+  terminal.print("Speed: Left = ");
+  terminal.print(myBoat.motorLeft.getSpeed());
+  terminal.print(", Right = ");
+  terminal.println(myBoat.motorRight.getSpeed());
+  terminal.println(myBoat.boatGyro.getStatus());
+  terminal.flush();
+};
 
 void loop()
 {
