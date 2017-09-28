@@ -5,7 +5,7 @@
    This example runs directly on ESP8266 chip.
  **************************************************************/
 
-#define BLYNK_PRINT Serial    // Comment this out to disable prints and save space
+//#define BLYNK_PRINT Serial    // Comment this out to disable prints and save space
 #include <ESP8266WiFi.h>
 #include <BlynkSimpleEsp8266.h>
 
@@ -19,7 +19,6 @@ WidgetTerminal terminal(V4);
 
 void setup()
 {
-  Serial.begin(115200);
   myBoat.motorLeft.setPinPlus  (  5 ); // when move forward 1 is here
   myBoat.motorLeft.setPinMinus (  0 ); // and 0 here
   myBoat.motorLeft.setPinPWM   (  3 ); // and PWM here
@@ -27,7 +26,7 @@ void setup()
   myBoat.motorRight.setPinMinus( 14 ); // and 0 here
   myBoat.motorRight.setPinPWM  (  1 ); // and PWM here
   Blynk.begin(auth, ssid, pass);
-  terminal.println("\nYARCBoat has started");
+  terminal.println("YARCBoat has started");
   terminal.flush();
 }
 
@@ -41,7 +40,7 @@ BLYNK_WRITE(V1) { // Wheel slider
   myBoat.updateMotors();
 };
 
-BLYNK_WRITE(V2) { // Reverce button
+BLYNK_WRITE(V2) { // Reverse button
   myBoat.Reverse = param.asInt() == 1;
   myBoat.updateMotors();
 };
@@ -68,9 +67,13 @@ BLYNK_WRITE(V4)
   terminal.flush();
 }
 
+BLYNK_WRITE(V5) { // Update "Gyroscope sensibility"
+    myBoat.boatGyro.setShift(-param.asInt());
+};
+
+
 void loop()
 {
   Blynk.run();
-  // read gyroscope
-
+  myBoat.updateMotors();
 }

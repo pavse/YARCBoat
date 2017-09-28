@@ -4,9 +4,9 @@
 
 class Boat {
 
-private:
+  private:
     byte   Speed = 0;       // Allowed range is 0..127
-    int8_t Rotation = 0;    // counterclockwise < 0 < clockwise
+    int8_t Rotation = 0;    // counter-clockwise < 0 < clockwise
   public:
     bool   Reverse = false;
     Motor  motorLeft;
@@ -28,12 +28,13 @@ private:
     void updateMotors() {
       int motLeft;
       int motRight;
+      int8_t gyroRotation = boatGyro.getRotation();
       if ( Reverse ) {
-          motLeft  = -Speed - Rotation << 3;
-          motRight = -Speed + Rotation << 3;
+          motLeft  = -Speed - Rotation << 4 + gyroRotation;
+          motRight = -Speed + Rotation << 4 - gyroRotation;
       } else {
-          motLeft  =  Speed + Rotation << 3;
-          motRight =  Speed - Rotation << 3;
+          motLeft  =  Speed + Rotation << 4 - gyroRotation;
+          motRight =  Speed - Rotation << 4 + gyroRotation;
       }
 
       int motMax = abs(motLeft);

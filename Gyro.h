@@ -10,6 +10,7 @@ class Gyro {
     MPU6050 mpu;
     int16_t ax, ay, az;
     int16_t gx, gy, gz;
+    byte    shift;
 
   public:
     Gyro() {
@@ -30,10 +31,16 @@ class Gyro {
 
     int8_t getRotation() {
       mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
-      int result = ax >> 7;
+      int result = ax >> shift;
       if (result >  127) result =  127;
       if (result < -127) result = -127;
       return (int8_t)result;
       //return map(ax, -17000, 17000, -127, 127);
     };
+
+    void setShift(byte value){
+        if (0 <= value && value <=10) {
+            shift = value;
+        };
+    }
 };
