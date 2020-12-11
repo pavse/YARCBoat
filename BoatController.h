@@ -23,8 +23,8 @@ class Boat {
     };
 
   public: void updateMotors() {
-      int motLeft  = Speed + Rotation << 3;
-      int motRight = Speed - Rotation << 3;
+      int motLeft  = Speed + (Rotation << 3);
+      int motRight = Speed - (Rotation << 3);
 
       int motMax = abs(motLeft);
       if (motMax < abs(motRight) ) {
@@ -36,5 +36,9 @@ class Boat {
       };
       motorLeft.setSpeed(motLeft);
       motorRight.setSpeed(motRight);
+      Serial.print("Motors: Left=");
+      Serial.print(motLeft);
+      Serial.print(", Right=");
+      Serial.println(motRight);
     };
 };
