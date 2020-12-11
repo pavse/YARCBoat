@@ -32,7 +32,7 @@ class Gyro {
 
     int8_t getRotation() {
       mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
-      int result = ax >> shift;
+      int result = az >> shift;
       if (result >  127) result =  127;
       if (result < -127) result = -127;
       return (int8_t)result;
